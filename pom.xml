@@ -81,6 +81,7 @@
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
+						<AppName>SpringBoot-Application</AppName>
 					</excludes>
 				</configuration>
 			</plugin>
