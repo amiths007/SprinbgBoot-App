@@ -1,18 +1,18 @@
 package com.example.Practice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
-
-@Entity
+@jakarta.persistence.Entity
 @Data
-@Table(name = "EmployeeDetails")
+@jakarta.persistence.Table(name = "EmployeeDetails")
 public class Employee {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @jakarta.persistence.Id
+    @jakarta.persistence.GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Employee ID", unique = true, updatable = true, nullable = true, length = 9999)
     private int id;
 
     @JsonProperty(value = "firstName")
@@ -30,8 +30,9 @@ public class Employee {
     @NotBlank(message = "FIELD CANNOT BE EMPTY")
     private String companyName;
 
-//    @JsonProperty(value = "financeDetails")
-//    @Column(name = "financeDetails")
-//    private FinanceDetails financeDetails;
+    @JsonProperty(value = "financeDetails")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "referenceId")
+    private FinanceDetails financeDetails;
 
 }

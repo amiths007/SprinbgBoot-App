@@ -2,7 +2,6 @@ package com.example.Practice.controller;
 
 import com.example.Practice.model.Employee;
 import com.example.Practice.service.EmployeeServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/post/employees/v1")
-    public ResponseEntity<List<Employee>> create(@Valid @RequestBody List<Employee> employee) throws Exception {
+    public ResponseEntity<List<Employee>> create(@RequestBody List<Employee> employee) throws Exception {
         return employeeService.createEmployees(employee);
     }
 
