@@ -1,6 +1,7 @@
 package com.example.Practice.service;
 
 import com.example.Practice.model.Employee;
+import com.example.Practice.model.FinanceDetails;
 import com.example.Practice.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             emp.setAge(employee.getAge());
             emp.setCompanyName(employee.getCompanyName());
 
+            FinanceDetails financeDetails = new FinanceDetails();
+            financeDetails.setGrade(employee.getFinanceDetails().getGrade());
+            financeDetails.setRole(employee.getFinanceDetails().getRole());
+            financeDetails.setSalary(employee.getFinanceDetails().getSalary());
+
+            emp.setFinanceDetails(financeDetails);
             employeeRepository.save(emp);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
