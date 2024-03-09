@@ -3,6 +3,7 @@ package com.example.Practice.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -35,6 +36,13 @@ public class Employee {
     @JsonProperty(value = "companyName")
     @NotBlank(message = "Please provide company name")
     private String companyName;
+
+    @JsonProperty(value = "email")
+    @Email(message = "Please provide email")
+    private String email;
+
+    @JsonProperty(value = "avatar")
+    private String avatar;
 
     @JsonProperty(value = "financeDetails")
     @OneToOne(cascade = CascadeType.ALL)

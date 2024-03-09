@@ -22,6 +22,11 @@ public class EmployeeController {
         return employeeService.getAllEmployeeData();
     }
 
+    @GetMapping("/get/filtered/employees/v1")
+    public ResponseEntity<List<Employee>> getFilteredEmployeeList() throws Exception {
+        return employeeService.getFilteredEmployeesEmail();
+    }
+
     @PostMapping("/post/employees/v1")
     public ResponseEntity<List<Employee>> create(@RequestBody @Valid List<Employee> employee) throws Exception {
         return employeeService.createEmployees(employee);

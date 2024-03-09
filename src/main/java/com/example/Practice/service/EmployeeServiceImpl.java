@@ -1,7 +1,9 @@
 package com.example.Practice.service;
 
+import com.example.Practice.mapper.ReqresResponseMapper;
 import com.example.Practice.model.Employee;
 import com.example.Practice.model.FinanceDetails;
+import com.example.Practice.model.UserDataResponse;
 import com.example.Practice.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,13 +22,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private UserDataServiceImpl userDataService;
+
+    @Autowired
+    private ReqresResponseMapper reqresResponseMapper;
+
     public ResponseEntity getAllEmployeeData() {
-        List<Employee> employee = employeeRepository.findAll();
-        if (!CollectionUtils.isEmpty(employee)) {
-            return ResponseEntity.of(Optional.of(employee));
+        List<Employee> employees = employeeRepository.findAll();
+        if (!CollectionUtils.isEmpty(employees)) {
+            return ResponseEntity.of(Optional.of(employees));
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body("No Records Founds in Database...Please try again later");
+        }
+    }
+
+    public ResponseEntity getFilteredEmployeesEmail() {
+        UserDataResponse response = userDataService.getUserData();
+        List<Employee> employees = employeeRepository.findAll();
+        if (!CollectionUtils.isEmpty(employees)) {
+            List<Employee> list = employees.stream().filter(filtered -> employees.stream().anyMatch(email -> response.getUserDataList().equals(filtered.getEmail().equals(email.getEmail())))).collect(Collectors.toList());
+
+            return ResponseEntity.ok(list);
+        }
+        else {
+            return ResponseEntity.noContent().build();
         }
     }
 
