@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -27,9 +28,6 @@ public class UserDataServiceImpl implements UserDataService {
     @Autowired
     private RestConfig restConfig;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Override
     public UserDataResponse getUserData() {
         try {
@@ -38,8 +36,8 @@ public class UserDataServiceImpl implements UserDataService {
                 return userDataList;
             }
 
-        } catch (RestClientException e) {
-            throw new RuntimeException("Error while retrieving Data..!!");
+        } catch (Exception e) {
+            throw new RestClientException("Error while retrieving Data..!!, Check application logs for details...");
         }
 
         return null;

@@ -3,8 +3,11 @@ package com.example.Practice.service;
 import com.example.Practice.mapper.ReqresResponseMapper;
 import com.example.Practice.model.Employee;
 import com.example.Practice.model.FinanceDetails;
+import com.example.Practice.model.UserData;
 import com.example.Practice.model.UserDataResponse;
 import com.example.Practice.repository.EmployeeRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private ReqresResponseMapper reqresResponseMapper;
 
+    @Autowired
+    private ObjectMapper objectMapper;
     public ResponseEntity getAllEmployeeData() {
         List<Employee> employees = employeeRepository.findAll();
         if (!CollectionUtils.isEmpty(employees)) {
@@ -41,10 +46,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public ResponseEntity getFilteredEmployeesEmail() {
         UserDataResponse response = userDataService.getUserData();
         List<Employee> employees = employeeRepository.findAll();
-        if (!CollectionUtils.isEmpty(employees)) {
-            List<Employee> list = employees.stream().filter(filtered -> employees.stream().anyMatch(email -> response.getUserDataList().equals(filtered.getEmail().equals(email.getEmail())))).collect(Collectors.toList());
 
-            return ResponseEntity.ok(list);
+        if (!CollectionUtils.isEmpty(employees)) {
+            List<Employee> list = employees.stream().filter(filtered -> response.getUserDataList().stream().anyMatch(email -> email.getEmail().equals(filtered.getEmail()))).collect(Collectors.toList());
+            List<Employee> filteredList = reqresResponseMapper.userDataResponseMapper(response, list);
+            return ResponseEntity.ok(filteredList);
         }
         else {
             return ResponseEntity.noContent().build();
