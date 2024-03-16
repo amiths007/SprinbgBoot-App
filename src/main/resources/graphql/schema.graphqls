@@ -1,0 +1,52 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Employee {
+    id: ID!
+    firstName: String
+    lastName: String
+    age: Int
+    companyName: String
+    email: String
+    avatar: String
+    financeDetails: FinanceDetails
+}
+
+type FinanceDetails {
+    employeeId: ID!
+    salary: String
+    role: String
+    grade: String
+}
+
+input EmployeeInput{
+    firstName: String
+    lastName: String
+    age: Int
+    companyName: String
+    email: String
+    avatar: String
+    financialDetailsInput: FinancialDetailsInput
+}
+
+input FinancialDetailsInput{
+    salary: String
+    role: String
+    grade: String
+}
+
+type Query {
+    getAllEmployeeList: [Employee]
+    getFilteredEmployeeList: [Employee]
+    getEmployeeId(id: ID): Employee
+}
+
+type Mutation {
+    create(employeeInput: EmployeeInput): [Employee]
+    deleteEmployee(id: ID!): Employee
+    updateEmployee(id: ID!, employeeInput: EmployeeInput): Employee
+}
+
+
