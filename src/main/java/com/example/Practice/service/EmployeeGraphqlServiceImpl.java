@@ -2,6 +2,7 @@ package com.example.Practice.service;
 
 import com.example.Practice.mapper.ReqresResponseMapper;
 import com.example.Practice.model.Employee;
+import com.example.Practice.model.EmployeeInput;
 import com.example.Practice.model.FinanceDetails;
 import com.example.Practice.model.UserDataResponse;
 import com.example.Practice.repository.EmployeeRepository;
@@ -39,9 +40,9 @@ public class EmployeeGraphqlServiceImpl implements EmployeeGraphqlService {
     }
 
     @Override
-    public List<Employee> createEmployees(List<Employee> employees) {
+    public List<EmployeeInput> createEmployees(List<EmployeeInput> employees) {
         if (!CollectionUtils.isEmpty(employees)) {
-            List<Employee> employee = employeeRepository.saveAll(employees);
+            List<EmployeeInput> employee = employeeRepository.saveAll(employees.stream().map(employeeInput -> new EmployeeInput()).collect(Collectors.toList()));
             return employee;
         } else {
             throw new RuntimeException("Error while saving Employee Data!!. Kindly provide data ");

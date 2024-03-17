@@ -46,7 +46,7 @@ type Query {
 type Mutation {
     create(employeeInput: EmployeeInput): [Employee]
     deleteEmployee(id: ID!): Employee
-    updateEmployee(id: ID!, employeeInput: EmployeeInput): Employee
+    updateEmployee(id: ID!): Employee
 }
 
 

@@ -1,6 +1,7 @@
 package com.example.Practice.controller;
 
 import com.example.Practice.model.Employee;
+import com.example.Practice.model.EmployeeInput;
 import com.example.Practice.service.EmployeeGraphqlServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class EmployeeGraphQlController {
 
 
     @MutationMapping
-    public List<Employee> create(@Argument @Valid List<Employee> employee) throws Exception {
+    public List<EmployeeInput> create(@Argument @Valid List<EmployeeInput> employee) throws Exception {
         return employeeGraphqlService.createEmployees(employee);
     }
 
     @QueryMapping
-    public List<Employee> getFilteredEmployeeList(@Argument String email) throws Exception {
+    public List<Employee> getFilteredEmployeeList() throws Exception {
         return employeeGraphqlService.getFilteredEmployeesEmail();
     }
 
