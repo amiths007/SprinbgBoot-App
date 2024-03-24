@@ -1,5 +1,6 @@
 package com.example.Practice.service;
 
+import com.example.Practice.constants.ConfigConstants;
 import com.example.Practice.mapper.ReqresResponseMapper;
 import com.example.Practice.model.Employee;
 import com.example.Practice.model.FinanceDetails;
@@ -8,6 +9,7 @@ import com.example.Practice.model.UserDataResponse;
 import com.example.Practice.repository.EmployeeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@CircuitBreaker(name = ConfigConstants.CIRCUIT_BREAKER_NAME)
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
